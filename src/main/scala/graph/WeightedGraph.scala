@@ -8,4 +8,7 @@ class WeightedGraph[V](val vertices: Set[V], val edges: Set[WeightedEdge[V]]) ex
   def addEdge(edge: WeightedEdge[V]): WeightedGraph[V] = new WeightedGraph(vertices ++ Set(edge.from, edge.to), edges + edge)
 
   def removeEdge(edge: WeightedEdge[V]): WeightedGraph[V] = new WeightedGraph(vertices, edges - edge)
+
+  def edgeWeight(from: V, to: V): Option[Double] =
+    edges.collectFirst { case WeightedEdge(`from`, `to`, weight) => weight }
 }
