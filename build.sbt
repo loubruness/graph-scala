@@ -8,8 +8,9 @@ lazy val core = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
-      "org.scalameta" %% "munit" % "0.7.29" % Test,  // Utilisation de la dernière version de MUnit compatible avec Scala 3
-      "dev.zio" %% "zio" % zioVersion
+      "org.scalameta" %% "munit" % "1.0.0" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test, // ScalaTest core library
+      "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % Test,
     ),
     scalacOptions ++= Seq(
       "-explain",
@@ -26,9 +27,7 @@ lazy val app = project
     libraryDependencies ++= Seq(
       "dev.zio" %% "zio-json" % "0.4.2",
       "dev.zio" %% "zio-logging" % "2.1.14",
-      "dev.zio" %% "zio-logging-slf4j" % "2.1.14",
-      "org.scalameta" %% "munit" % "0.7.29" % Test,
-      
+      "dev.zio" %% "zio-logging-slf4j" % "2.1.14",      
     ),
     scalacOptions ++= Seq(
       "-explain",
