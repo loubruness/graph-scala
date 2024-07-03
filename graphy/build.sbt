@@ -1,5 +1,7 @@
 val scala3Version = "3.4.2"
 
+val zioVersion = "2.1.5-RC6"
+
 lazy val root = project
   .in(file("."))
   .settings(

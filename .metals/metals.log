@@ -1472,3 +1472,94 @@ WARNING: Unmatched cancel notification for request id 2230
 2024.07.03 08:32:03 INFO  time: compiled root in 0.18s
 2024.07.03 08:32:04 INFO  compiling root (1 scala source)
 2024.07.03 08:32:04 INFO  time: compiled root in 0.21s
+Jul 03, 2024 8:33:31 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint notify
+WARNING: Failed to send notification message.
+org.eclipse.lsp4j.jsonrpc.JsonRpcException: java.io.IOException: Connection reset by peer
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageConsumer.consume(StreamMessageConsumer.java:72)
+	at scala.meta.internal.metals.RequestMonitorImpl$$anon$1.consume(ServerLivenessMonitor.scala:41)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.notify(RemoteEndpoint.java:135)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.sendCancelNotification(RemoteEndpoint.java:191)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint$1.cancel(RemoteEndpoint.java:160)
+	at scala.meta.internal.metals.utils.FutureWithTimeout$$anon$1.$anonfun$cancel$1(FutureWithTimeout.scala:37)
+	at scala.runtime.java8.JFunction0$mcZ$sp.apply(JFunction0$mcZ$sp.scala:17)
+	at scala.util.Try$.apply(Try.scala:217)
+	at scala.meta.internal.metals.utils.FutureWithTimeout$$anon$1.cancel(FutureWithTimeout.scala:37)
+	at scala.meta.internal.metals.utils.FutureWithTimeout$.$anonfun$apply$4(FutureWithTimeout.scala:54)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:470)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.io.IOException: Connection reset by peer
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54)
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:132)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:97)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:53)
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:532)
+	at java.base/sun.nio.ch.SinkChannelImpl.write(SinkChannelImpl.java:123)
+	at java.base/java.nio.channels.Channels.writeFullyImpl(Channels.java:74)
+	at java.base/java.nio.channels.Channels.writeFully(Channels.java:93)
+	at java.base/java.nio.channels.Channels$1.write(Channels.java:171)
+	at java.base/java.io.OutputStream.write(OutputStream.java:127)
+	at java.base/java.nio.channels.Channels$1.write(Channels.java:151)
+	at scala.meta.internal.metals.ClosableOutputStream.write(ClosableOutputStream.scala:26)
+	at java.base/java.io.FilterOutputStream.write(FilterOutputStream.java:137)
+	at java.base/java.io.FilterOutputStream.write(FilterOutputStream.java:108)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageConsumer.consume(StreamMessageConsumer.java:67)
+	... 13 more
+
+2024.07.03 08:33:31 INFO  Cancelling compilation on Bloop server
+java.util.concurrent.TimeoutException: Future timed out after [15 minutes]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryAwait0(Promise.scala:248)
+	at scala.concurrent.impl.Promise$DefaultPromise.result(Promise.scala:261)
+	at scala.concurrent.Await$.$anonfun$result$1(package.scala:201)
+	at scala.concurrent.BlockContext$DefaultBlockContext$.blockOn(BlockContext.scala:62)
+	at scala.concurrent.Await$.result(package.scala:124)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionScalaFuture.$anonfun$withTimeout$1(MetalsEnrichments.scala:270)
+	at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:687)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(Thread.java:833)
+
+Jul 03, 2024 8:34:18 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2750
+2024.07.03 08:34:18 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:23 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:23 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:55 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:55 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:55 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:55 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:57 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:57 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:57 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:57 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:58 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:58 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:59 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:34:59 WARN  no build target for: C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt
+2024.07.03 08:34:59 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:01 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:01 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:01 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:02 WARN  no build target for: C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt
+2024.07.03 08:35:02 INFO  skipping build import with status 'Dismissed'
+2024.07.03 08:35:02 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:02 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:02 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:02 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:03 WARN  no build target for: C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt
+2024.07.03 08:35:03 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:03 INFO  skipping build import with status 'Dismissed'
+Jul 03, 2024 8:35:27 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2815
+2024.07.03 08:35:27 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:35:28 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:36:21 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:36:29 INFO  compiling root (1 scala source)
+2024.07.03 08:36:29 INFO  time: compiled root in 0.21s
+2024.07.03 08:36:51 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+2024.07.03 08:36:51 INFO  no build target found for C:\Users\loubr\M1\Functional_Prog\graph-scala\graphy\build.sbt. Using presentation compiler with project's scala-library version: 3.3.3
+Jul 03, 2024 8:37:46 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2931
