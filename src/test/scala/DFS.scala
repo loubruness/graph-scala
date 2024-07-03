@@ -1,27 +1,46 @@
-import graph.{WeightedGraph, WeightedEdge}
+import graph.{DFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UnDirectedGraph}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class DFSSpec extends AnyFlatSpec {
-  "A WeightedGraph" should "add edges correctly" in {
-    val graph = new WeightedGraph(Set("A", "B"), Set(WeightedEdge("A", "B", 8.0)))
-    val newGraph = graph.addEdge(WeightedEdge("B", "C", 3.0))
-    assert(newGraph.edges == Set(WeightedEdge("A", "B", 8.0), WeightedEdge("B", "C", 3.0)))
+class DFSAlgorithmTest extends AnyFlatSpec {
+  "DFSAlgorithm" should "perform DFS correctly on a directed graph" in {
+    val vertices = Set("0", "1", "2", "3")
+    val edges = Set(
+      DirectedEdge("0", "1"), DirectedEdge("0", "2"),
+      DirectedEdge("1", "2"),
+      DirectedEdge("2", "0"), DirectedEdge("2", "3"),
+      DirectedEdge("3", "3")
+    )
+    val graphy = new DirectedGraph(vertices, edges)
+
+    val result = DFSAlgorithm.dfs(graphy, "1")
+    assert(result == List("1", "2", "0", "3"))
   }
 
-  it should "remove edges correctly" in {
-    val graph = new WeightedGraph(Set("A", "B"), Set(WeightedEdge("A", "B", 8.0)))
-    val newGraph = graph.removeEdge(WeightedEdge("A", "B", 8.0))
-    assert(newGraph.edges.isEmpty)
+  it should "perform DFS correctly on a directed graph (2)" in {
+    val vertices = Set("0", "1", "2", "3")
+    val edges = Set(
+      DirectedEdge("2", "0"),
+      DirectedEdge("0", "2"),
+      DirectedEdge("1", "2"),
+      DirectedEdge("0", "1"),
+      DirectedEdge("3", "3"),
+      DirectedEdge("1", "3")
+    )
+    val graphy = new DirectedGraph(vertices, edges)
+
+    val result = DFSAlgorithm.dfs(graphy, "2")
+    assert(result == List("2", "0", "1", "3"))
   }
 
-  it should "have correct neighbors" in {
-    val graph = new WeightedGraph(Set("A", "B", "C"), Set(WeightedEdge("A", "B", 8.0), WeightedEdge("B", "C", 3.0), WeightedEdge("C", "A", 5.0)));
-    val neighbors = graph.neighbors("A");
-    assert(neighbors == Set("B"))
-  }
+  it should "perform DFS correctly on an undirected graph" in {
+    val vertices = Set("0", "1", "2", "3", "4")
+    val edges = Set(
+      UndirectedEdge("0", "1"), UndirectedEdge("0", "2"), UndirectedEdge("0", "3"),
+      UndirectedEdge("2", "3"), UndirectedEdge("2", "4")
+    )
+    val graphy = new UnDirectedGraph(vertices, edges)
 
-  it should "be empty" in {
-    val graph = new WeightedGraph(Set(), Set())
-    assert(graph.isEmpty())
+    val result = DFSAlgorithm.dfs(graphy, "0")
+    assert(result == List("0", "1", "2", "4", "3"))
   }
 }
