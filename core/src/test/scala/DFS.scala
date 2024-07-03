@@ -1,4 +1,4 @@
-import graph.{DFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UnDirectedGraph}
+import graph.{DFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UndirectedGraph}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DFSAlgorithmTest extends AnyFlatSpec {
@@ -38,7 +38,7 @@ class DFSAlgorithmTest extends AnyFlatSpec {
       UndirectedEdge("0", "1"), UndirectedEdge("0", "2"), UndirectedEdge("0", "3"),
       UndirectedEdge("2", "3"), UndirectedEdge("2", "4")
     )
-    val graphy = new UnDirectedGraph(vertices, edges)
+    val graphy = new UndirectedGraph(vertices, edges)
 
     val result = DFSAlgorithm.dfs(graphy, "0")
     assert(result == List("0", "1", "2", "4", "3"))

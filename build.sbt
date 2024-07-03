@@ -27,7 +27,8 @@ lazy val app = project
       "dev.zio" %% "zio-json" % "0.4.2",
       "dev.zio" %% "zio-logging" % "2.1.14",
       "dev.zio" %% "zio-logging-slf4j" % "2.1.14",
-      "org.scalameta" %% "munit" % "0.7.29" % Test
+      "org.scalameta" %% "munit" % "0.7.29" % Test,
+      
     ),
     scalacOptions ++= Seq(
       "-explain",
