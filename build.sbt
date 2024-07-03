@@ -12,7 +12,7 @@ lazy val root = project
 
      libraryDependencies ++= Seq(
       "org.scalameta" %% "munit" % "1.0.0" % Test,
-      "dev.zio" %% "zio" % "2.1.5",               // ZIO core library
+      "dev.zio" %% "zio",               // ZIO core library
       "dev.zio" %% "zio-json" % "0.4.2",           // ZIO JSON library
       "dev.zio" %% "zio-logging" % "2.1.14",       // ZIO logging
       "dev.zio" %% "zio-logging-slf4j" % "2.1.14"  // ZIO logging SLF4J backend

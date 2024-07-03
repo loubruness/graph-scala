@@ -12,3 +12,5 @@ implicit class GraphViz[V](graph: Graph[V, DirectedEdge[V]]) {
      """.stripMargin
   }
 }
+
+// regarder comment faire avec extension
