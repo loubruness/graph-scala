@@ -7,4 +7,4 @@ val graphy = new DirectedGraph(vertices, edges)
 println(graphy.vertices)
 println(graphy.edges)
 println(graphy.neighbors("A"))
-println(graphy.toGraphViz)
+graphy.toGraphViz
