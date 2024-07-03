@@ -5,7 +5,7 @@ val zioVersion = "2.1.5-RC6"
 lazy val root = project
   .in(file("."))
   .settings(
-    name := "graphy",
+    name := "graph-scala",
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
