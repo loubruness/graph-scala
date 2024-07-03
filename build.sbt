@@ -11,6 +11,8 @@ lazy val core = project
       "org.scalameta" %% "munit" % "1.0.0" % Test,
       "org.scalatest" %% "scalatest" % "3.2.19" % Test, // ScalaTest core library
       "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % Test,
+      "dev.zio" %% "zio" % zioVersion,
+      "dev.zio" %% "zio-json" % "0.3.0",
     ),
     scalacOptions ++= Seq(
       "-explain",
@@ -25,9 +27,11 @@ lazy val app = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
+      "dev.zio" %% "zio" % zioVersion,
       "dev.zio" %% "zio-json" % "0.4.2",
       "dev.zio" %% "zio-logging" % "2.1.14",
-      "dev.zio" %% "zio-logging-slf4j" % "2.1.14",      
+      "dev.zio" %% "zio-logging-slf4j" % "2.1.14",
+      "dev.zio" %% "zio-cli" % "0.4.0", // For CLI-based applications      
     ),
     scalacOptions ++= Seq(
       "-explain",
