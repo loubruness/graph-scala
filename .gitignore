@@ -22,7 +22,7 @@ local.sbt
 .vscode/
 
 # Metals
-.bloop/
+.bloop
 .metals/
 metals.sbt
 
