@@ -2,22 +2,8 @@ import graph.{DirectedEdge, DirectedGraph, Graph, GraphViz, UndirectedEdge, Undi
 
 import scala.collection.mutable
 
-def dfs[V](graph: Graph[V, DirectedEdge[V]] | Graph[V, UndirectedEdge[V]], start: V): List[V] = {
-  def visit(vertex: V, visited: Set[V], result: List[V]): (Set[V], List[V]) = {
-    if (visited.contains(vertex)) (visited, result)
-    else {
-      val (newVisited, newResult) = graph.neighbors(vertex).foldLeft((visited + vertex, vertex :: result)) {
-        case ((vis, res), neighbor) => visit(neighbor, vis, res)
-      }
-      (newVisited, newResult)
-    }
-  }
-
-  visit(start, Set.empty[V], Nil)._2.reverse
-}
-
 // Easier to understand version
-def dfs_hugo[V](graph: Graph[V, DirectedEdge[V]] | Graph[V, UndirectedEdge[V]], start: V): List[V] = {
+def dfs[V](graph: Graph[V, DirectedEdge[V]] | Graph[V, UndirectedEdge[V]], start: V): List[V] = {
   var visited = mutable.Stack[V]()
 
   def visit(vertex: V): List[V] =
@@ -52,7 +38,6 @@ val graphy = new DirectedGraph(vertices, edges)
 
 println(graphy.toGraphViz)
 println(dfs(graphy, "1"))
-println(dfs_hugo(graphy, "1"))
 
 val vertices2 = Set("0", "1", "2", "3")
 val edges2 = Set(
@@ -67,7 +52,6 @@ val graphy2 = new DirectedGraph(vertices2, edges2)
 
 println(graphy2.toGraphViz)
 println(dfs(graphy2, "2"))
-println(dfs_hugo(graphy2, "2"))
 
 // TEST ON UNDIRECTED GRAPH
 val ugvert = Set("0", "1", "2", "3", "4")
@@ -79,4 +63,3 @@ val ug = UndirectedGraph(ugvert, ugedge)
 println(ug.vertices)
 println(ug.edges)
 println(dfs(ug, "0"))
-println(dfs_hugo(ug, "0"))
