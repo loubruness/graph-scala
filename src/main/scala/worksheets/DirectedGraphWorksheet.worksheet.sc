@@ -1,8 +1,8 @@
-import graph.{Directed_Graph, DirectedEdge}
+import graph.{DirectedGraph, DirectedEdge}
 
 val vertices = Set("A", "B", "C")
 val edges = Set(DirectedEdge("A", "B"), DirectedEdge("B", "C"))
-val graphy = new Directed_Graph(vertices, edges)
+val graphy = new DirectedGraph(vertices, edges)
 
 println(graphy.vertices)
 println(graphy.edges)

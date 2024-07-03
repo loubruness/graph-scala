@@ -9,11 +9,12 @@ lazy val root = project
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
       "org.scalameta" %% "munit" % "1.0.0" % Test,
-      "dev.zio" %% "zio" % zioVersion,                 // ZIO core library
-      "dev.zio" %% "zio-json" % "0.4.2",               // ZIO JSON library
-      "dev.zio" %% "zio-logging" % "2.1.14",           // ZIO logging
-      "dev.zio" %% "zio-logging-slf4j" % "2.1.14",     // ZIO logging SLF4J backend
-      "org.scalatest" %% "scalatest" % "3.2.19" % Test // ScalaTest core library
+      // "dev.zio" %% "zio" % zioVersion,                 // ZIO core library
+      // "dev.zio" %% "zio-json" % "0.4.2",               // ZIO JSON library
+      // "dev.zio" %% "zio-logging" % "2.1.14",           // ZIO logging
+      // "dev.zio" %% "zio-logging-slf4j" % "2.1.14",     // ZIO logging SLF4J backend
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test, // ScalaTest core library
+      "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % Test,
     ),
     scalacOptions ++= Seq(
       "-explain",
