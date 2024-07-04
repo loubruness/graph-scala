@@ -1,4 +1,4 @@
-import graph.{BFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UndirectedGraph}
+import graph.*
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BFSAlgorithmTest extends AnyFlatSpec {
@@ -50,6 +50,18 @@ class BFSAlgorithmTest extends AnyFlatSpec {
       UndirectedEdge("1", "4"), UndirectedEdge("4", "2")
     )
     val graphy = new UndirectedGraph(vertices, edges)
+
+    val result = BFSAlgorithm.bfs(graphy, "0")
+    assert(result == List("0", "1", "2", "4", "3"))
+  }
+
+  it should "perform BFS correctly on a weighted graph" in {
+    val vertices = Set("0", "1", "2", "3", "4")
+    val edges = Set(
+      WeightedEdge("0", "1", 1), WeightedEdge("0", "2", 7), WeightedEdge("1", "3", 7),
+      WeightedEdge("1", "4", 5), WeightedEdge("4", "2", 3)
+    )
+    val graphy = new WeightedGraph(vertices, edges)
 
     val result = BFSAlgorithm.bfs(graphy, "0")
     assert(result == List("0", "1", "2", "4", "3"))

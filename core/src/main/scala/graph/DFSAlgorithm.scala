@@ -3,7 +3,7 @@ package graph
 import scala.collection.mutable
 
 object DFSAlgorithm {
-  def dfs[V](graph: Graph[V, DirectedEdge[V]] | Graph[V, UndirectedEdge[V]] | Graph[V, WeightedEdge[V]], start: V): List[V] = {
+  def dfs[V](graph: DirectedGraph[V] | UndirectedGraph[V] | WeightedGraph[V], start: V): List[V] = {
     var visited = mutable.Stack[V]()
 
     def visit(vertex: V): List[V] = {
