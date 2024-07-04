@@ -3,7 +3,7 @@ package graph
 import scala.collection.mutable
 
 object TopologicalSortAlgorithm {
-  def topologicalSort[V](graph: DirectedGraph[V]): List[V] = {
+  def topologicalSort[V](graph: DirectedGraph[V] | WeightedGraph[V]): List[V] = {
     val visited = mutable.Stack[V]()
 
     def visit(vertex: V): Unit =
