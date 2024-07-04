@@ -2,7 +2,7 @@ import graph.{DijkstraAlgorithm, WeightedEdge, WeightedGraph}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DijkstraAlgorithmTest extends AnyFlatSpec {
-  "DijkstraAlgorithm" should "perform Djisktra correctly on a weighted graph" in {
+  "DijkstraAlgorithm" should "perform Dijsktra correctly on a weighted graph" in {
     val vertices = Set("A", "B", "C", "D")
     val edges = Set(
       WeightedEdge("A", "B", 1), 
@@ -17,7 +17,7 @@ class DijkstraAlgorithmTest extends AnyFlatSpec {
     assert(result == Map("A" -> 0.0, "B" -> 1.0, "C" -> 2.0,"D" -> 4.0))
   }
 
-  it should "perform Djisktra correctly on a weighted graph 2" in {
+  it should "perform Dijsktra correctly on a weighted graph 2" in {
     val vertices = Set("A", "B", "C", "D")
     val edges = Set(
       WeightedEdge("A", "B", 1),
