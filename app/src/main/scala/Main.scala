@@ -7,6 +7,7 @@ import graph.JsonCodecs._
 import zio.json._
 import graph.DFSAlgorithm._
 import java.io.IOException
+import zio.stm.ZSTM
 
 object Main extends ZIOAppDefault {
 
@@ -25,7 +26,7 @@ object Main extends ZIOAppDefault {
     _ <- printLine("1. Directed Graph")
     _ <- printLine("2. Undirected Graph")
     _ <- printLine("3. Weighted Graph")
-    _ <- printLine("Q. Exit")
+    _ <- printLine("Q. Exit") 
 
 
     choice <- readLine
@@ -34,7 +35,7 @@ object Main extends ZIOAppDefault {
       case "2" => mainMenu(undirectedRef)
       case "3" => mainMenu(weightedRef)
 
-      case "Q" => printLine("Goodbye!")
+      case "Q" => printLine("Goodbye!") *> ZIO.succeed(())
       case _ => printLine("Invalid choice. Please try again.") *> selectMenu
     }
   } yield ()
@@ -57,7 +58,7 @@ object Main extends ZIOAppDefault {
         case "4" => saveGraphToJson(ref)
         case "5" => loadGraphFromJson(ref)
         case "6" => algorithmMenu(ref)
-        case "Q" => printLine("Goodbye!")
+        case "Q" => printLine("Goodbye!") *> selectMenu
         case _ => printLine("Invalid choice. Please try again.") *> mainMenu(ref)
 
     } yield ()
@@ -126,9 +127,11 @@ object Main extends ZIOAppDefault {
         case ref: Ref[DirectedGraph[String]] => 
           ref.update(graph => graph.addEdge(DirectedEdge(source, destination))) *>
           printLine(s"Directed Edge ($source, $destination) added.")
-        case ref: Ref[UndirectedGraph[String]] => 
-          ref.update(graph => graph.addEdge(UndirectedEdge(source, destination))) *>
-          printLine(s"Undirected Edge ($source, $destination) added.")
+        case ref: Ref[UndirectedGraph[String]] =>for {
+          _ <- printLine("Adding Edge...") 
+          _ <- ref.update(graph => graph.addEdge(UndirectedEdge(source, destination)))
+          _ <- printLine(s"Undirected Edge ($source, $destination) added.")
+          } yield ()
         case ref: Ref[WeightedGraph[String]] => 
           for {
             _ <- printLine("Enter the weight:")
@@ -283,6 +286,7 @@ object Main extends ZIOAppDefault {
         case graph: WeightedGraph[String] => printLine(s"Floyd-Warshall: {FloydWarshallAlgorithm.floydWarshall(graph)}")
         case _ => printLine("Invalid Graph Type")
       }
+      _ <- algorithmMenu(ref)
     } yield ()
   }
 
