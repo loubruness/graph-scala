@@ -21,7 +21,6 @@ class GraphSpec extends AnyFlatSpec {
     assert(newGraph2.edges == Set(DirectedEdge("A", "B")))
   }
 
-
   it should "have correct neighbors" in {
     val graph = new DirectedGraph(Set("A", "B", "C"), Set(DirectedEdge("A", "B"), DirectedEdge("B", "C"), DirectedEdge("C", "A")));
     val neighbors = graph.neighbors("A");
