@@ -1,7 +1,8 @@
-package graph
 
-import zio._
+package app
 import zio.json._
+import graph.{DirectedEdge, DirectedGraph, UndirectedEdge, UndirectedGraph, WeightedEdge, WeightedGraph}
+
 
 
 object JsonCodecs {

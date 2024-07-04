@@ -3,11 +3,11 @@ package app
 import zio._
 import zio.Console._
 import graph._
-import graph.JsonCodecs._
 import zio.json._
 import graph.DFSAlgorithm._
 import java.io.IOException
 import zio.stm.ZSTM
+import JsonCodecs._
 
 object Main extends ZIOAppDefault {
 
@@ -15,13 +15,15 @@ object Main extends ZIOAppDefault {
 
   val program: ZIO[Any, IOException, Unit] = for {
     _ <- printLine("Welcome to the ZIO Graph Application!")
-    _ <- selectMenu
-    } yield ()
-
-  def selectMenu: ZIO[Any, IOException, Unit] = for {
     directedRef <- Ref.make(DirectedGraph(Set.empty[String], Set.empty))
     undirectedRef <- Ref.make(UndirectedGraph(Set.empty[String], Set.empty))
     weightedRef <- Ref.make(WeightedGraph(Set.empty[String], Set.empty))
+    _ <- selectMenu(AppState(directedRef, undirectedRef, weightedRef, GraphType.Directed))
+
+    } yield ()
+
+  def selectMenu(appState: AppState): ZIO[Any, IOException, Unit] = for {
+
     _ <- printLine("Select Graph Type:")
     _ <- printLine("1. Directed Graph")
     _ <- printLine("2. Undirected Graph")
@@ -31,16 +33,16 @@ object Main extends ZIOAppDefault {
 
     choice <- readLine
     _ <- choice match {
-      case "1" => mainMenu(directedRef)
-      case "2" => mainMenu(undirectedRef)
-      case "3" => mainMenu(weightedRef)
+      case "1" => mainMenu(AppState(appState.directedGraph,appState.undirectedGraph,appState.weightedGraph,GraphType.Directed))         
+      case "2" => mainMenu(AppState(appState.directedGraph,appState.undirectedGraph,appState.weightedGraph,GraphType.Undirected))
+      case "3" => mainMenu(AppState(appState.directedGraph,appState.undirectedGraph,appState.weightedGraph,GraphType.Weighted))
 
       case "Q" => printLine("Goodbye!") *> ZIO.succeed(())
-      case _ => printLine("Invalid choice. Please try again.") *> selectMenu
+      case _ => printLine("Invalid choice. Please try again.") *> selectMenu(appState)
     }
   } yield ()
 
-  def mainMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def mainMenu(appState: AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Main Menu:")
       _ <- printLine("1. Add Edge")
@@ -52,251 +54,200 @@ object Main extends ZIOAppDefault {
       _ <- printLine("Q. Exit")
       choice <- readLine
       _ <- choice match 
-        case "1" => addEdgeMenu(ref)
-        case "2" => removeEdgeMenu(ref)
-        case "3" => displayGraph(ref)
-        case "4" => saveGraphToJson(ref)
-        case "5" => loadGraphFromJson(ref)
-        case "6" => algorithmMenu(ref)
-        case "Q" => printLine("Goodbye!") *> selectMenu
-        case _ => printLine("Invalid choice. Please try again.") *> mainMenu(ref)
+        case "1" => addEdgeMenu(appState)
+        case "2" => removeEdgeMenu(appState)
+        case "3" => displayGraph(appState)
+        case "4" => saveGraphToJson(appState)
+        case "5" => loadGraphFromJson(appState)
+        case "6" => algorithmMenu(appState)
+        case "Q" => printLine("Goodbye!") *> selectMenu(appState)
+        case _ => printLine("Invalid choice. Please try again.") *> mainMenu(appState)
 
     } yield ()
   }
-  def algorithmMenu(ref:  Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def algorithmMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Algorithm Menu:")
-      graph <- ref.get
-      _ <- graph match 
-        case graph: DirectedGraph[String] => 
+      _ <- appState.graphType match 
+        case GraphType.Directed =>
+          printLine("1. Depth-First Search (DFS)") *> 
+          printLine("2. Breadth-First Search (BFS)") *> 
+          printLine("3. Topological Sort") *> 
+          printLine("4. Cycle Detection") 
+        case GraphType.Undirected => 
+          printLine("1. Depth-First Search (DFS)") *> 
+          printLine("2. Breadth-First Search (BFS)") *> 
+          printLine("3. Cycle Detection")
+        case GraphType.Weighted => 
           printLine("1. Depth-First Search (DFS)") *> 
           printLine("2. Breadth-First Search (BFS)") *> 
           printLine("3. Topological Sort") *> 
           printLine("4. Dijkstra's Shortest Path") *> 
           printLine("5. Cycle Detection") *> 
           printLine("6. Floyd-Warshall Algorithm")
-        case graph: UndirectedGraph[String] => 
-          printLine("1. Depth-First Search (DFS)") *> 
-          printLine("2. Breadth-First Search (BFS)") *> 
-          printLine("3. Topological Sort") *> 
-          printLine("4. Cycle Detection")
-        case graph: WeightedGraph[String] => 
-          printLine("1. Floyd-Warshall Algorithm")
       
       _ <- printLine("Q. Back to Main Menu")
 
       choice <- readLine
-      _ <- graph match{
-        case graph: DirectedGraph[String] => 
+      _ <- appState.graphType match{
+        case GraphType.Directed => 
           choice match 
-            case "1" => dfsMenu(ref)
-            case "2" => bfsMenu(ref)
-            case "3" => topologicalSortMenu(ref)
-            case "5" => cycleDetectionMenu(ref)
-            case "6" => floydWarshallMenu(ref)
-            case "Q" => mainMenu(ref)
-            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(ref)
+            case "1" => dfsMenu(appState)
+            case "2" => bfsMenu(appState)
+            case "3" => topologicalSortMenu(appState)
+            case "4" => cycleDetectionMenu(appState)
+            case "Q" => mainMenu(appState)
+            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(appState)
           
-        case graph: UndirectedGraph[String] =>
+        case GraphType.Undirected =>
           choice match 
-            case "1" => dfsMenu(ref)
-            case "2" => bfsMenu(ref)
-            case "3" => topologicalSortMenu(ref)
-            case "4" => cycleDetectionMenu(ref)
-            case "Q" => mainMenu(ref)
-            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(ref)
+            case "1" => dfsMenu(appState)
+            case "2" => bfsMenu(appState)
+            case "3" => cycleDetectionMenu(appState)
+            case "Q" => mainMenu(appState)
+            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(appState)
           
-        case graph: WeightedGraph[String] =>
+        case GraphType.Weighted =>
           choice match 
-            case "1" => floydWarshallMenu(ref)
-            case "Q" => mainMenu(ref)
-            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(ref)
+            case "1" => dfsMenu(appState)
+            case "2" => bfsMenu(appState)
+            case "3" => topologicalSortMenu(appState)
+            case "4" => dijkstraMenu(appState)
+            case "5" => cycleDetectionMenu(appState)
+            case "6" => floydWarshallMenu(appState)
+            case "Q" => mainMenu(appState)
+            case _ => printLine("Invalid choice. Please try again.") *> algorithmMenu(appState)
       }
     } yield ()
   }
 
-  def addEdgeMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def addEdgeMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the source vertex:")
       source <- readLine
-
       _ <- printLine("Enter the destination vertex:")
       destination <- readLine
-      
-      _ <- ref match
-        case ref: Ref[DirectedGraph[String]] => 
-          ref.update(graph => graph.addEdge(DirectedEdge(source, destination))) *>
-          printLine(s"Directed Edge ($source, $destination) added.")
-        case ref: Ref[UndirectedGraph[String]] =>for {
-          _ <- printLine("Adding Edge...") 
-          _ <- ref.update(graph => graph.addEdge(UndirectedEdge(source, destination)))
-          _ <- printLine(s"Undirected Edge ($source, $destination) added.")
-          } yield ()
-        case ref: Ref[WeightedGraph[String]] => 
+
+      _ <- appState.graphType match
+        case GraphType.Weighted => 
           for {
             _ <- printLine("Enter the weight:")
             weight <- readLine
-
-            _ <- ref.update(graph => graph.addEdge(WeightedEdge(source, destination, weight.toDouble))) *>
-            printLine(s"Weighted Edge ($source, $destination, $weight) added.")
-
+            _ <- appState.addEdge(source, destination, Some(weight))
+            _ <- printLine(s"Edge ($source, $destination) with weight $weight added.")
           } yield ()
-
-      _ <- mainMenu(ref)
+        case _ => 
+          for{
+            _<-appState.addEdge(source, destination)
+            _ <- printLine(s"Edge ($source, $destination) added.")
+          } yield ()
+      _ <- mainMenu(appState)
 
     } yield ()
   }
 
-  def removeEdgeMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def removeEdgeMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the source vertex:")
       source <- readLine
       _ <- printLine("Enter the destination vertex:")
       destination <- readLine
-      _ <- ref match
-        case ref: Ref[DirectedGraph[String]] => 
-          ref.update(graph => graph.removeEdge(DirectedEdge(source, destination))) *>
-          printLine(s"Directed Edge ($source, $destination) removed.")
-
-        case ref: Ref[UndirectedGraph[String]] => 
-          ref.update(graph => graph.removeEdge(UndirectedEdge(source, destination))) *>
-          printLine(s"Undirected Edge ($source, $destination) removed.")
-
-        case ref: Ref[WeightedGraph[String]] => 
-          ref.update(graph => graph.removeEdge(WeightedEdge(source, destination, 0))) *>
-          printLine(s"Weighted Edge ($source, $destination) removed.")
-
-      _ <- mainMenu(ref)
+      _ <- appState.removeEdge(source, destination) 
+      _ <- printLine(s"Edge ($source, $destination) removed.")
+      
 
     } yield ()
   }
 
-  def displayGraph(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def displayGraph(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
-      graph <- ref.get
-      _ <- graph match
-        case graph: DirectedGraph[String] => 
-          for {
-            _ <- printLine(graph.toGraphViz)
-          } yield ()
-        case graph: UndirectedGraph[String] =>
-          for {
-            _ <- printLine(graph)
-          } yield ()
-        case graph: WeightedGraph[String] =>
-          for {
-            _ <- printLine(graph)
-          } yield ()
-      _ <- mainMenu(ref)
+      _ <- printLine("Displaying Graph...")
+      _ <- printLine(appState.graphViz)
+      _ <- mainMenu(appState)
     } yield ()
   }
 
-  def saveGraphToJson(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def saveGraphToJson(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
-      graph <- ref.get
-      json = graph match
-        case graph: DirectedGraph[String] => graph.toJson
-        case graph: UndirectedGraph[String] => graph.toJson
-        case graph: WeightedGraph[String] => graph.toJson
-        
+      json <- appState.showJson
       _ <- printLine(s"Graph JSON: $json")
-      _ <- mainMenu(ref)
+      _ <- mainMenu(appState)
     } yield ()
   }
 
-  def loadGraphFromJson(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def loadGraphFromJson(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the graph JSON:")
       json <- readLine
-      _ <- ref match
-        case ref: Ref[DirectedGraph[String]] => 
-          json.fromJson[DirectedGraph[String]] match {
-            case Right(graph) => ref.set(graph) *> printLine("Directed Graph loaded successfully.")
-            case Left(error)  => printLine(s"Failed to load graph: $error")
-          }
-        case ref: Ref[UndirectedGraph[String]] =>
-          json.fromJson[UndirectedGraph[String]] match {
-            case Right(graph) => ref.set(graph) *> printLine("Undirected Graph loaded successfully.")
-            case Left(error)  => printLine(s"Failed to load graph: $error")
-          }
-        case ref: Ref[WeightedGraph[String]] =>
-          json.fromJson[WeightedGraph[String]] match {
-            case Right(graph) => ref.set(graph) *> printLine("Weighted Graph loaded successfully.")
-            case Left(error)  => printLine(s"Failed to load graph: $error")
-          }
-      _ <- mainMenu(ref)
+      _ <- appState.loadJson(json)
+      _ <- printLine("Graph loaded from JSON.")
+      _ <- mainMenu(appState)
     } yield ()
   }
 
-  def dfsMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def dfsMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the starting vertex:")
       start <- readLine
-      graph <- ref.get
-      _ <- graph match {
-        case graph: DirectedGraph[String] => printLine(s"DFS: ${DFSAlgorithm.dfs(graph, start)}")
-        case graph: UndirectedGraph[String] => printLine(s"DFS: ${DFSAlgorithm.dfs(graph, start)}")
-        case _ => printLine("Invalid Graph Type")
-      }
-      _ <- algorithmMenu(ref)
+      graph <- appState.graph
+      _ <- printLine(s"DFS: ${DFSAlgorithm.dfs(graph, start)}")
+
+      _ <- algorithmMenu(appState)
     } yield ()
   }
 
-  def bfsMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def bfsMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the starting vertex:")
       start <- readLine
-      graph <- ref.get
-      _ <- graph match {
-        case graph: DirectedGraph[String] => printLine(s"BFS: {BFSAlgorithm.bfs(graph, start)}")
-        case graph: UndirectedGraph[String] => printLine(s"BFS: {BFSAlgorithm.bfs(graph, start)}")
-        case _ => printLine("Invalid Graph Type")
-      }
-      _ <- algorithmMenu(ref)
+      graph <- appState.graph
+
+      _<- printLine(s"BFS: ${BFSAlgorithm.bfs(graph, start)}")
+
+      _ <- algorithmMenu(appState)
     } yield ()
   }
 
-  def topologicalSortMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def topologicalSortMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
-      graph <- ref.get
+      graph <- appState.graph
       _ <- graph match {
         case graph: DirectedGraph[String] => printLine(s"Topological Sort: {TopologicalSortAlgorithm.topologicalSort(graph)}")
         case _ => printLine("Invalid Graph Type")
       }
-      _ <- algorithmMenu(ref)
+      _ <- algorithmMenu(appState)
     } yield ()
   }
 
-  def cycleDetectionMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def cycleDetectionMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
-      graph <- ref.get
+      graph <- appState.graph
+
+      _ <- printLine(s"Cycle Detection: ${CycleDetectionAlgorithm.detectCycle(graph)}")
+      _ <- algorithmMenu(appState)
+    } yield ()
+  }
+
+  def floydWarshallMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
+    for {
+      graph <- appState.graph
       _ <- graph match {
-        case graph: DirectedGraph[String] => printLine(s"Cycle Detection: {CycleDetectionAlgorithm.hasCycle(graph)}")
-        case graph: UndirectedGraph[String] => printLine(s"Cycle Detection: {CycleDetectionAlgorithm.hasCycle(graph)}")
+        case graph: WeightedGraph[String] => printLine(s"Floyd-Warshall: ${FloydAlgorithm.floyd(graph)}")
         case _ => printLine("Invalid Graph Type")
       }
-      _ <- algorithmMenu(ref)
+      _ <- algorithmMenu(appState)
     } yield ()
   }
 
-  def floydWarshallMenu(ref: Ref[DirectedGraph[String]] | Ref[UndirectedGraph[String]] | Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
-    for {
-      graph <- ref.get
-      _ <- graph match {
-        case graph: WeightedGraph[String] => printLine(s"Floyd-Warshall: {FloydWarshallAlgorithm.floydWarshall(graph)}")
-        case _ => printLine("Invalid Graph Type")
-      }
-      _ <- algorithmMenu(ref)
-    } yield ()
-  }
-
-  def dijkstraMenu(ref: Ref[WeightedGraph[String]]): ZIO[Any, IOException, Unit] = {
+  def dijkstraMenu(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
       _ <- printLine("Enter the starting vertex:")
       start <- readLine
-      graph <- ref.get
-      _ <- printLine(s"Dijkstra's Shortest Path: ${DijkstraAlgorithm.dijkstra(graph,start)}")
-      _ <- algorithmMenu(ref)
+      graph <- appState.graph
+      _ <- graph match
+        case graph : WeightedGraph[String] => printLine(s"Dijkstra's Shortest Path: ${DijkstraAlgorithm.dijkstra(graph,start)}")
+        case _ => printLine("Invalid Graph Type")
+      _ <- algorithmMenu(appState)
     } yield ()
   }
 }

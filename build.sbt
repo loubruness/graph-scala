@@ -11,8 +11,6 @@ lazy val core = project
       "org.scalameta" %% "munit" % "1.0.0" % Test,
       "org.scalatest" %% "scalatest" % "3.2.19" % Test, // ScalaTest core library
       "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % Test,
-      "dev.zio" %% "zio" % zioVersion,
-      "dev.zio" %% "zio-json" % "0.3.0",
     ),
     scalacOptions ++= Seq(
       "-explain",
