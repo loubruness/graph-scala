@@ -1,4 +1,4 @@
-import graph.{CycleDetectionAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UnDirectedGraph, WeightedEdge, WeightedGraph, ExtUndirectedEdge, ExtUndirectedGraph}
+import graph.{CycleDetectionAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UndirectedGraph, WeightedEdge, WeightedGraph, ExtUndirectedEdge, ExtUndirectedGraph}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class CycleDetectionAlgorithmTest extends AnyFlatSpec {

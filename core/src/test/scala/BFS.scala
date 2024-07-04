@@ -1,4 +1,4 @@
-import graph.{BFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UnDirectedGraph}
+import graph.{BFSAlgorithm, DirectedEdge, DirectedGraph, Graph, UndirectedEdge, UndirectedGraph}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BFSAlgorithmTest extends AnyFlatSpec {
@@ -37,7 +37,7 @@ class BFSAlgorithmTest extends AnyFlatSpec {
       UndirectedEdge("0", "1"), UndirectedEdge("0", "2"), UndirectedEdge("0", "3"),
       UndirectedEdge("2", "3"), UndirectedEdge("2", "4")
     )
-    val graphy = new UnDirectedGraph(vertices, edges)
+    val graphy = new UndirectedGraph(vertices, edges)
 
     val result = BFSAlgorithm.bfs(graphy, "0")
     assert(result == List("0", "1", "2", "3", "4"))
@@ -49,7 +49,7 @@ class BFSAlgorithmTest extends AnyFlatSpec {
       UndirectedEdge("0", "1"), UndirectedEdge("0", "2"), UndirectedEdge("1", "3"),
       UndirectedEdge("1", "4"), UndirectedEdge("4", "2")
     )
-    val graphy = new UnDirectedGraph(vertices, edges)
+    val graphy = new UndirectedGraph(vertices, edges)
 
     val result = BFSAlgorithm.bfs(graphy, "0")
     assert(result == List("0", "1", "2", "4", "3"))
