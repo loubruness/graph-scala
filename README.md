@@ -2,7 +2,7 @@
 
 # Usage Instructions
 
-Our project is split into two sub-projects (core and app). You can move into a specific sub-project with the `sbt project core` or `sbt project app` commands. Once inside, you can run the code with `sbt run`, and you can access the tests with `sbt test`. There are tests but nothing to run in the core sub-project, and the opposite for the app sub-project. ( Note that you can compile the code with `sbt compile`, but we edited the build.sbt file to automatically compile on run. )
+Our project is split into two sub-projects (core and app). You can move into a specific sub-project with the `sbt project core` or `sbt project app` commands. Once inside, you can run the code with `sbt run`, and you can access the tests with `sbt test`. There are tests in both sub-project, but nothing to run in the core sub-project. ( Note that you can compile the code with `sbt compile`, but we edited the build.sbt file to automatically compile on run. )
 
 
 
@@ -30,6 +30,11 @@ For the tests, we implemented unit tests using the scalaTest library, and the fl
 
 Finally, we chose to represent our work with a ZIO 2 app. We decided to focus on a terminal based app. All files regarding the app are stored in a specific sub-project.
 
+We have created a menu system using ZIO.Console, which allows the user to choose between three types of graphs. Once the user has chosen a graph, they can add or remove vertices, visualize the graph, encode it in JSON, decode it from a JSON file, and apply algorithms on it using.
+
+The menu system is implemented in the Main file of the app sub-project. We have also created an AppState file that is used to store the current state of the graph, and the current graph type. This file is used to pass the state of the graph between the different functions of the app and it contains all the functions that are used to interact with the graph.
+
+We test the JSON encoding and decoding for our three types of graphs in the 'test' folder. For each type of graph, we make sure that it can be encoded and decoded correctly.
 
 
 # Usage Examples
@@ -81,6 +86,7 @@ If you decide to apply algorithms, you will be presented with interfaces of the 
 
 As mentioned, we used the scalaTest library, and the flatSpec style to develop unit tests for each algorithm and graph class (checking their different functions) in the core sub-project. These tests allow us to verify that each function works as it is intended to, and minimize the risks of eventual complications when we use those functions in more complex algorithms. 
 
-In order to run the tests of the core sub-project, you can use the `sbt project core` command, and then the `sbt test`command. It will display the test results in the terminal.
+In order to run the tests of both sub-projects, you can use the `sbt test`command. It will display the test results in the terminal.
 
-![alt text](image.png)
+![image](https://github.com/loubruness/graph-scala/assets/94390007/4078992e-4f8c-4785-b5f3-e51f8df4f574)
+
