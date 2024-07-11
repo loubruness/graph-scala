@@ -55,24 +55,6 @@ println(decodedGraph3)
 
 
 
-// Decode graph from JSON
-// Directed graph
-val jsonStr = """{"vertices":["0","1","2","3"],"edges":[{"source":"0","destination":"1"},{"source":"0","destination":"2"},{"source":"1","destination":"2"},{"source":"2","destination":"0"},{"source":"2","destination":"3"},{"source":"3","destination":"3"}]}"""
-val decodedGraph2 = jsonStr.fromJson[DirectedGraph[String]]
-println(decodedGraph2)
-
-// Undirected graph
-val jsonStr2 = """{"vertices":["0","1","2","3"],"edges":[{"source":"0","destination":"1"},{"source":"0","destination":"2"},{"source":"1","destination":"2"},{"source":"2","destination":"0"},{"source":"2","destination":"3"},{"source":"3","destination":"3"}]}"""
-val decodedGraph2 = jsonStr2.fromJson[UndirectedGraph[String]]
-println(decodedGraph2)
-
-// Weighted graph
-val jsonStr3 = """{"vertices":["0","1","2","3"],"edges":[{"source":"0","destination":"1","weight":5},{"source":"0","destination":"2","weight":4},{"source":"1","destination":"2","weight":3},{"source":"2","destination":"0","weight":2},{"source":"2","destination":"3","weight":1},{"source":"3","destination":"3","weight":0}]}"""
-val decodedGraph3 = jsonStr3.fromJson[WeightedGraph[String]]
-println(decodedGraph3)
-
-
-
 
 
 
