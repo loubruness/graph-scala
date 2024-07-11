@@ -30,6 +30,8 @@ lazy val app = project
       "dev.zio" %% "zio-logging" % "2.1.14",
       "dev.zio" %% "zio-logging-slf4j" % "2.1.14",
       "dev.zio" %% "zio-cli" % "0.4.0", // For CLI-based applications      
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test, // ScalaTest core library
+      "org.scalatest" %% "scalatest-flatspec" % "3.2.19" % Test,
     ),
     scalacOptions ++= Seq(
       "-explain",
