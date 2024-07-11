@@ -1,14 +1,9 @@
 package app
 
 import zio._
-import zio.Console._
 import graph._
 import zio.json._
-import graph.DFSAlgorithm._
-import java.io.IOException
-import zio.stm.ZSTM
 import JsonCodecs._
-import app.Main.addEdgeMenu
 
 case class AppState(
   directedGraph: Ref[DirectedGraph[String]],
@@ -85,7 +80,7 @@ case class AppState(
     for{
       graph <- graph
       graphviz = graph.match
-        case graph: DirectedGraph[String] => graph.toGraphVizDirected
+        case graph: DirectedGraph[String] => graph.toGraphVizDirected 
         case graph: UndirectedGraph[String] => graph.toGraphVizUndirected
         case graph: WeightedGraph[String] => graph.toGraphVizWeight
     

@@ -3,11 +3,7 @@ package app
 import zio._
 import zio.Console._
 import graph._
-import zio.json._
-import graph.DFSAlgorithm._
 import java.io.IOException
-import zio.stm.ZSTM
-import JsonCodecs._
 
 object Main extends ZIOAppDefault {
 
@@ -154,15 +150,15 @@ object Main extends ZIOAppDefault {
       destination <- readLine
       _ <- appState.removeEdge(source, destination) 
       _ <- printLine(s"Edge ($source, $destination) removed.")
-      
+      _ <- mainMenu(appState)
 
     } yield ()
   }
 
   def displayGraph(appState:AppState): ZIO[Any, IOException, Unit] = {
     for {
-      _ <- printLine("Displaying Graph...")
-      _ <- printLine(appState.graphViz)
+      grviz <- appState.graphViz
+      _ <- printLine(grviz)
       _ <- mainMenu(appState)
     } yield ()
   }
@@ -212,7 +208,7 @@ object Main extends ZIOAppDefault {
     for {
       graph <- appState.graph
       _ <- graph match {
-        case graph: DirectedGraph[String] => printLine(s"Topological Sort: {TopologicalSortAlgorithm.topologicalSort(graph)}")
+        case graph: DirectedGraph[String] => printLine(s"Topological Sort: ${TopologicalSortAlgorithm.topologicalSort(graph)}")
         case _ => printLine("Invalid Graph Type")
       }
       _ <- algorithmMenu(appState)
