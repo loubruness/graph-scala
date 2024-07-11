@@ -2,7 +2,7 @@
 
 # Usage Instructions
 
-Our project is split into two sub-projects (core and app). You can move into a specific sub-project with the `sbt` command, then `project core` or `project app`. Once inside, you can run the code with `sbt run`, and you can access the tests with `sbt test`. There are tests in both sub-projects, but nothing to run in the core sub-project. ( Note that you can compile the code with `sbt compile`, but we edited the build.sbt file to automatically compile on run. )
+Our project is split into two sub-projects (core and app). You can move into a specific sub-project with the `sbt` command, then `project core` or `project app`. Inside the app project, you can run the code with `sbt run`, and you can access the tests with `sbt test`. There are tests in both sub-projects, but nothing to run in the core sub-project. ( Note that you can compile the code with `sbt compile`, but we edited the build.sbt file to automatically compile on run. )
 
 
 
